@@ -33,8 +33,7 @@ public class Client extends Database {
 		ArrayList<Client> clients = new ArrayList<Client>();
 		try {
 			
-			ResultSet rs = Query("SELECT * FROM Clients LIMIT 100").executeQuery();
-			int i = 0;
+			ResultSet rs = Query("SELECT * FROM Clients").executeQuery();
 			while(rs.next())
 			{
 				clients.add(new Client(rs.getInt("ClientId"), rs.getString("FirstName"), rs.getString("MiddleName"), rs.getString("LastName"), rs.getString("Address"), rs.getString("MobileNo"))); 

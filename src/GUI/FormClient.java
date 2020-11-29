@@ -14,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import core.Client;
-import core.Client;
 
 public class FormClient extends JFrame {
 	private JFrame frame;

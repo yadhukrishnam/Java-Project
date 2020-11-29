@@ -10,11 +10,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import core.Building;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JEditorPane;
+
 public class FormBuilding extends JFrame {
 
 	private JPanel contentPane;
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField txtBuildingName;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
@@ -22,10 +30,11 @@ public class FormBuilding extends JFrame {
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
 	private JLabel lblNewLabel_7;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JButton btnNewButton;
+	private JTextField txtBuildingId;
+	private JTextField txtBuildingType;
+	private JTextField txtYear;
+	private JButton btnSave;
+	private JTextField txtCost;
 
 	public FormBuilding() {
 		this.setTitle("New Building");
@@ -44,10 +53,10 @@ public class FormBuilding extends JFrame {
 		lblNewLabel.setBounds(47, 80, 150, 14);
 		getContentPane().add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(256, 78, 165, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		txtBuildingName = new JTextField();
+		txtBuildingName.setBounds(256, 78, 165, 20);
+		getContentPane().add(txtBuildingName);
+		txtBuildingName.setColumns(10);
 		
 		lblNewLabel_1 = new JLabel("Building ID");
 		lblNewLabel_1.setBounds(47, 106, 165, 14);
@@ -77,24 +86,54 @@ public class FormBuilding extends JFrame {
 		lblNewLabel_7.setBounds(223, 161, 15, 14);
 		getContentPane().add(lblNewLabel_7);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(256, 104, 165, 20);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		txtBuildingId = new JTextField();
+		txtBuildingId.setBounds(256, 104, 165, 20);
+		getContentPane().add(txtBuildingId);
+		txtBuildingId.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(256, 134, 165, 20);
-		getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		txtBuildingType = new JTextField();
+		txtBuildingType.setBounds(256, 134, 165, 20);
+		getContentPane().add(txtBuildingType);
+		txtBuildingType.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(256, 159, 165, 20);
-		getContentPane().add(textField_3);
-		textField_3.setColumns(10);
+		txtYear = new JTextField();
+		txtYear.setBounds(256, 159, 165, 20);
+		getContentPane().add(txtYear);
+		txtYear.setColumns(10);
 		
-		btnNewButton = new JButton("SAVE");
-		btnNewButton.setBounds(305, 201, 116, 25);
-		getContentPane().add(btnNewButton);
+		btnSave = new JButton("SAVE");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Building Bl = new Building(
+						Integer.parseInt(txtBuildingId.getText()),
+						txtBuildingName.getText(), txtBuildingType.getText(),
+						Integer.parseInt(txtYear.getText()),
+						1,
+						Long.parseLong(txtCost.getText()),
+						1
+				);
+				if (Bl.register())
+				{
+					JOptionPane.showMessageDialog(null, "New Building added !");
+				} else {
+					JOptionPane.showMessageDialog(null, "Could not add building.");
+				}
+			}
+		});
+		btnSave.setBounds(305, 230, 116, 25);
+		getContentPane().add(btnSave);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Cost");
+		lblNewLabel_3_1.setBounds(47, 188, 151, 14);
+		contentPane.add(lblNewLabel_3_1);
+		
+		JLabel lblNewLabel_7_1 = new JLabel(":");
+		lblNewLabel_7_1.setBounds(223, 187, 15, 14);
+		contentPane.add(lblNewLabel_7_1);
+		
+		txtCost = new JTextField();
+		txtCost.setColumns(10);
+		txtCost.setBounds(256, 186, 165, 20);
+		contentPane.add(txtCost);
 	}
-
 }
