@@ -7,10 +7,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import core.Client;
+import core.Site;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.Panel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -67,6 +69,23 @@ public class Dashboard extends JFrame {
 					new ClientList();
 				}
 			});
+			
+			JMenuItem mntmSearchClient = new JMenuItem("Search Client");
+			mntmSearchClient.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String keyword =JOptionPane.showInputDialog(null,"Enter Search keyowrd");
+					Client cl = new Client();
+					ArrayList<Client> clients  = cl.searchClient(keyword);
+					  if (clients.size() == 0)
+					  {	
+						 JOptionPane.showMessageDialog(null, "No search results");
+					  } else {
+						  ClientList clist = new ClientList();
+						  clist.loadTable(clients);  
+					  }
+				}
+			});
+			mnClient.add(mntmSearchClient);
 			mnClient.add(menuItem);
 			
 			JMenu MenuSite = new JMenu("Building");
@@ -102,10 +121,28 @@ public class Dashboard extends JFrame {
 			JMenuItem mntmManageSites = new JMenuItem("Manage Sites");
 			mntmManageSites.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SiteList(); 
+					SiteList stl = new SiteList();
+					stl.loadTable();
 				}
 			});
 			mnSite.add(mntmManageSites);
+			
+			JMenuItem mntmSearchSite = new JMenuItem("Search Site");
+			mntmSearchSite.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					  String keyword =JOptionPane.showInputDialog(null,"Enter Search keyowrd");
+					  Site st = new Site();
+					  ArrayList<Site> sites  = st.searchSite(keyword);
+					  if (sites.size() == 0)
+					  {	
+						 JOptionPane.showMessageDialog(null, "No search results");
+					  } else {
+						  SiteList stl = new SiteList();
+						  stl.loadTable(sites);  
+					  }
+				}
+			});
+			mnSite.add(mntmSearchSite);
 			
 			contentPane = new JPanel();
 			contentPane.setBackground(new Color(112, 128, 144));

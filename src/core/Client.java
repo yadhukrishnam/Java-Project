@@ -47,6 +47,31 @@ public class Client extends Database {
 		return clients; 
 	}
 	
+	public ArrayList<Client> searchClient (String keyword)
+	{
+		ArrayList<Client> clients = new ArrayList<Client>();
+		try {
+			
+			PreparedStatement stmt =  Query("SELECT * FROM Clients WHERE FirstName LIKE ? OR MiddleName = ? OR LastName = ? OR Address = ? OR MobileNo = ?");
+			stmt.setString(1, "%" + keyword + "%");
+			stmt.setString(2, "%" + keyword + "%");
+			stmt.setString(3, "%" + keyword + "%");
+			stmt.setString(4, "%" + keyword + "%");
+			stmt.setString(5, "%" + keyword + "%");
+			
+			ResultSet rs = stmt.executeQuery(); 
+			while(rs.next())
+			{
+				clients.add(new Client(rs.getInt("ClientId"), rs.getString("FirstName"), rs.getString("MiddleName"), rs.getString("LastName"), rs.getString("Address"), rs.getString("MobileNo"))); 
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			System.exit(0);
+		}
+		return clients; 
+	}
+	
 	public Client getClient(int ClientId)
 	{
 		try {

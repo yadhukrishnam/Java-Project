@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import core.Site;
+import core.Site;
 
 public class FormSite extends JFrame {
 
@@ -20,9 +21,21 @@ public class FormSite extends JFrame {
 	private JTextField txtSiteId;
 	private JTextField txtSiteName;
 	private JTextField txtSiteLocation;
+	public boolean isUpdate = false;
 	/**
 	 * Create the frame.
 	 */
+	public void setData(Site S)
+	{
+		this.isUpdate = true; 
+		txtSiteId.setText(String.valueOf(S.SiteId));
+		txtSiteName.setText(S.SiteName);
+		txtSiteLocation.setText(S.SiteLocation);
+		this.setTitle("Edit Site");
+		txtSiteId.setEditable(false);
+
+	}
+	
 	public FormSite() {
 		this.setVisible(true);
 		this.setTitle("New Site");
@@ -76,11 +89,20 @@ public class FormSite extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Site s = new Site(Integer.parseInt(txtSiteId.getText()), txtSiteName.getText(), txtSiteLocation.getText());
-				if (s.newSite()) 
-				{
-					JOptionPane.showMessageDialog(null, "New site created !");
+				if (isUpdate) {
+					if (s.updateSite())
+					{
+						JOptionPane.showMessageDialog(null, "Site updated successfully !");
+					} else {
+						JOptionPane.showMessageDialog(null, "Site ID already exists !");
+					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Site ID already exists !");
+					if (s.newSite()) 
+					{
+						JOptionPane.showMessageDialog(null, "New site created !");
+					} else {
+						JOptionPane.showMessageDialog(null, "Site ID already exists !");
+					}
 				}
 			}
 		});

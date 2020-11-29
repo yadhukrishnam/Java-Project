@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,13 +15,40 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import core.Client;
+import core.Site;
+
 public class SiteList extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
+	private DefaultTableModel tableModel;
+	
+	public void loadTable(ArrayList<Site> sites)
+	{
+		for(Site SiteObj :sites)
+		{
+			Object[] objs = {SiteObj.SiteId, SiteObj.SiteName, SiteObj.SiteLocation};
+			tableModel.addRow(objs);
+		}
+	}
+	
+	public void loadTable()
+	{
+		tableModel.setRowCount(0);
+		Site st = new Site();
+		ArrayList<Site> sites = st.getSites();
+		
+		for(Site SiteObj :sites)
+		{
+			Object[] objs = {SiteObj.SiteId, SiteObj.SiteName, SiteObj.SiteLocation};
+			tableModel.addRow(objs);
+		}
+		
+	}
 	
 	public SiteList() {
+		setTitle("All Sites"); 
 		setVisible(true); 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 300);
@@ -29,8 +57,8 @@ public class SiteList extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		String col[] = {"Site ID","Location"};
-		DefaultTableModel tableModel = new DefaultTableModel(col, 0);
+		String col[] = {"Site ID","Site Name", "Location"};
+		tableModel = new DefaultTableModel(col, 0);
 		
 		table = new JTable(tableModel) {
 			private static final long serialVersionUID = 1L;
@@ -43,19 +71,22 @@ public class SiteList extends JFrame {
 		 
 		contentPane.add(new JScrollPane(table));
 		
-		Object[] objs = {1, "Arsenal", 35};
-		tableModel.addRow(objs); 
-		
 		table.addMouseListener(new MouseAdapter() {
 	         public void mouseClicked(MouseEvent me) {
 	            if (me.getClickCount() == 2) {     // to detect double click events
 	               JTable target = (JTable)me.getSource();
 	               int row = target.getSelectedRow(); // select a row
-	               System.out.println(row); 
+	               
+	               FormSite fs = new FormSite();
+	               Site currentSite = new Site(Integer.parseInt(table.getValueAt(row, 0).toString()));
+	               fs.setData(currentSite);
+	               dispose(); 
 	            }
 	         }
 	     });
 		
 	}
+	
+
 
 }

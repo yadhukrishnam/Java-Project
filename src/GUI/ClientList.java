@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 
 import core.Client;
+import core.Site;
 
 public class ClientList extends JFrame{
 
@@ -21,6 +22,16 @@ public class ClientList extends JFrame{
 	private JPanel contentPane;
 	private JTable table;
 	private Client cl;
+	
+	public void loadTable(ArrayList<Client> clients)
+	{
+		tableModel.setRowCount(0);
+		for(Client ClientObj :clients)
+		{
+			Object[] objs = {ClientObj.ClientId, ClientObj.FirstName, ClientObj.MidName, ClientObj.LastName, ClientObj.Address, ClientObj.MobileNo};
+			tableModel.addRow(objs);
+		}
+	}
 	
 	public void loadTable()
 	{
