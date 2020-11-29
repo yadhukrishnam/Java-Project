@@ -3,6 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,12 +12,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import core.Building;
+import core.Site;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JEditorPane;
+import javax.swing.JComboBox;
 
 public class FormBuilding extends JFrame {
 
@@ -31,16 +35,35 @@ public class FormBuilding extends JFrame {
 	private JLabel lblNewLabel_6;
 	private JLabel lblNewLabel_7;
 	private JTextField txtBuildingId;
-	private JTextField txtBuildingType;
 	private JTextField txtYear;
 	private JButton btnSave;
 	private JTextField txtCost;
-
+	private JComboBox<String[]> cmbBuildingType;
+	private JLabel lblNewLabel_3_2;
+	private JLabel lblNewLabel_7_2;
+	private JComboBox<String> cmbLocation;
+	private JLabel lblNewLabel_3_3;
+	private JComboBox<String> cmbSiteName;
+	private JLabel lblNewLabel_7_3;
+	private boolean isUpdate = false;
+	
+	public void setData(Building B)
+	{
+		txtBuildingName.setText(B.BuildingName);
+		txtBuildingId.setText(String.valueOf(B.BuildingId));
+		txtYear.setText(String.valueOf(B.ConstructionYear));
+		txtCost.setText(String.valueOf(B.Cost));
+		cmbLocation.setSelectedItem(B.SiteLocation);
+		cmbBuildingType.setSelectedItem(B.BuildingType);
+		cmbSiteName.setSelectedItem(B.SiteName);
+		isUpdate = true;
+	}
+	
 	public FormBuilding() {
 		this.setTitle("New Building");
 		setVisible(true); 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 400);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,13 +114,8 @@ public class FormBuilding extends JFrame {
 		getContentPane().add(txtBuildingId);
 		txtBuildingId.setColumns(10);
 		
-		txtBuildingType = new JTextField();
-		txtBuildingType.setBounds(256, 134, 165, 20);
-		getContentPane().add(txtBuildingType);
-		txtBuildingType.setColumns(10);
-		
 		txtYear = new JTextField();
-		txtYear.setBounds(256, 159, 165, 20);
+		txtYear.setBounds(256, 160, 165, 20);
 		getContentPane().add(txtYear);
 		txtYear.setColumns(10);
 		
@@ -106,21 +124,33 @@ public class FormBuilding extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Building Bl = new Building(
 						Integer.parseInt(txtBuildingId.getText()),
-						txtBuildingName.getText(), txtBuildingType.getText(),
+						txtBuildingName.getText(), 
+						String.valueOf(cmbBuildingType.getSelectedItem()),
 						Integer.parseInt(txtYear.getText()),
-						1,
+						String.valueOf(cmbSiteName.getSelectedItem()),
 						Long.parseLong(txtCost.getText()),
 						1
 				);
-				if (Bl.register())
+				if (isUpdate == true) 
 				{
-					JOptionPane.showMessageDialog(null, "New Building added !");
+					if (Bl.updateDetails())
+					{
+						JOptionPane.showMessageDialog(null, "Building updated !");
+					} else {
+						JOptionPane.showMessageDialog(null, "Could not update building.");
+					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Could not add building.");
+					if (Bl.register())
+					{
+						JOptionPane.showMessageDialog(null, "New Building added !");
+					} else {
+						JOptionPane.showMessageDialog(null, "Could not add building.");
+					}
 				}
+				dispose(); 
 			}
 		});
-		btnSave.setBounds(305, 230, 116, 25);
+		btnSave.setBounds(305, 313, 116, 25);
 		getContentPane().add(btnSave);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Cost");
@@ -135,5 +165,51 @@ public class FormBuilding extends JFrame {
 		txtCost.setColumns(10);
 		txtCost.setBounds(256, 186, 165, 20);
 		contentPane.add(txtCost);
+		
+		cmbBuildingType = new JComboBox();
+		cmbBuildingType.setModel(new DefaultComboBoxModel(new String[] {"Apartment", "Office"}));
+		
+		cmbBuildingType.setBounds(256, 131, 165, 24);
+		contentPane.add(cmbBuildingType);
+		
+		lblNewLabel_3_2 = new JLabel("Location");
+		lblNewLabel_3_2.setBounds(47, 214, 151, 14);
+		contentPane.add(lblNewLabel_3_2);
+		
+		lblNewLabel_7_2 = new JLabel(":");
+		lblNewLabel_7_2.setBounds(223, 213, 15, 14);
+		contentPane.add(lblNewLabel_7_2);
+		
+		cmbLocation = new JComboBox();
+		cmbLocation.setSelectedIndex(-1);
+		cmbLocation.setBounds(256, 209, 165, 24);
+		contentPane.add(cmbLocation);
+		Site s = new Site(); 
+		ArrayList<String> location = s.getLocations();
+		cmbLocation.setSelectedIndex(-1);
+		cmbLocation.setModel(new DefaultComboBoxModel<String>(location.toArray(new String[0])));
+		cmbLocation.setSelectedIndex(-1);
+		cmbLocation.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		    	cmbSiteName.removeAllItems();
+		    	ArrayList<String> sites = s.getSites((String) cmbLocation.getSelectedItem());
+		    	for(String el: sites)
+		    	{
+		    		cmbSiteName.addItem(el);
+		    	}
+		    }
+		});
+		
+		lblNewLabel_3_3 = new JLabel("Site Name");
+		lblNewLabel_3_3.setBounds(46, 250, 151, 14);
+		contentPane.add(lblNewLabel_3_3);
+		
+		cmbSiteName = new JComboBox();
+		cmbSiteName.setBounds(256, 245, 165, 24);
+		contentPane.add(cmbSiteName);
+		
+		lblNewLabel_7_3 = new JLabel(":");
+		lblNewLabel_7_3.setBounds(223, 250, 15, 14);
+		contentPane.add(lblNewLabel_7_3);
 	}
 }

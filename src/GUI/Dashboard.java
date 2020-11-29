@@ -23,9 +23,8 @@ public class Dashboard extends JFrame {
 
 	public Dashboard() {
 		try {
-			setExtendedState(JFrame.MAXIMIZED_BOTH); 
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 700, 700);
+			setBounds(400, 100, 700, 500);
 			
 			JMenuBar menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
@@ -106,6 +105,15 @@ public class Dashboard extends JFrame {
 				}
 			});
 			MenuSite.add(mntmManageBuildings);
+			
+			JMenuItem mntmChangeOwnership = new JMenuItem("Manage Ownership");
+			mntmChangeOwnership.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					BuildingList BL = new BuildingList();
+					BL.setSelection();
+				}
+			});
+			MenuSite.add(mntmChangeOwnership);
 			
 			JMenu mnSite = new JMenu("Site");
 			menuBar.add(mnSite);

@@ -111,4 +111,80 @@ public class Site extends Database {
 		} 
 		return sites;
 	}
+	
+	public ArrayList<String> getLocations()
+	{
+		ArrayList<String> location =  new ArrayList<String>();
+		try {
+			
+			ResultSet rs = Query("SELECT Distinct sitelocation from sites;").executeQuery(); 
+			while(rs.next())
+			{
+				location.add(rs.getString(1)); 
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} 
+		return location;
+	}
+	public ArrayList<String> getSites (String location)
+	{
+		ArrayList<String> sites = new ArrayList<String>();
+		try {
+			
+			PreparedStatement stmt = Query("SELECT SiteName FROM Sites WHERE sitelocation = ?");
+			stmt.setString(1, location);
+			ResultSet rs = stmt.executeQuery(); 
+			while(rs.next())
+			{
+				sites.add(rs.getString(1)); 
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} 
+		return sites;
+	}
+	
+	public int getSiteId(String SiteName)
+	{
+		int SiteId = 0; 
+		try {
+			
+			PreparedStatement stmt = Query("SELECT SiteId FROM Sites WHERE sitename = ?");
+			stmt.setString(1, SiteName);
+			ResultSet rs = stmt.executeQuery(); 
+			while(rs.next())
+			{
+				System.out.print(rs.getInt(1));
+				return rs.getInt(1);  
+				
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return SiteId; 
+	}
+	
+	public String getSiteLocation(String SiteName)
+	{
+		String SiteLocation = ""; 
+		try {
+			
+			PreparedStatement stmt = Query("SELECT SiteLocation FROM Sites WHERE sitename = ?");
+			stmt.setString(1, SiteName);
+			ResultSet rs = stmt.executeQuery(); 
+			while(rs.next())
+			{
+				return rs.getString(1);  
+				
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return SiteLocation; 
+	}
 }

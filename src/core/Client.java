@@ -18,6 +18,28 @@ public class Client extends Database {
 		
 	}
 	
+	public Client (int ClientId)
+	{
+		try {
+			PreparedStatement stmt = Query("SELECT * FROM Clients WHERE ClientId = ?");
+			stmt.setLong(1, ClientId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next())
+			{
+				this.ClientId = ClientId;
+				this.FirstName = rs.getString("FirstName");
+				this.MidName = rs.getString("MiddleName");
+				this.LastName = rs.getString("LastName");
+				this.Address = rs.getString("Address");
+				this.MobileNo = rs.getString("MobileNo");
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
+	
 	public Client (int ClientId, String FirstName, String MidName, String LastName, String Address, String MobileNo)
 	{
 		this.ClientId = ClientId;
