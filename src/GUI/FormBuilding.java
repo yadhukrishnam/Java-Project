@@ -70,7 +70,7 @@ public class FormBuilding extends JFrame {
 		setContentPane(contentPane);
 		getContentPane().setLayout(null);
 		contentPane.setLayout(null);
-		
+		setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Building Name");
 		lblNewLabel.setBounds(47, 80, 150, 14);

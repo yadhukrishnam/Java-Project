@@ -1,3 +1,12 @@
+CREATE TABLE Users (
+	UserId VARCHAR(30) PRIMARY KEY,
+	Passowrd VARCHAR(30) NOT NULL
+)
+
+INSERT INTO Users 
+VALUES ('admin', '123');
+
+
 CREATE TABLE Clients (
     ClientId SERIAL PRIMARY KEY,
     FirstName VARCHAR(20) NOT NULL,
@@ -13,4 +22,15 @@ CREATE TABLE Sites (
     SiteName VARCHAR(40), 
     SiteLocation VARCHAR(40)
 );
+
+CREATE TABLE Building (
+    BuildingId INT PRIMARY KEY,
+    BuildingName VARCHAR(30),
+    BuildingType VARCHAR(20),
+    YearOfConstruction NUMERIC(4),
+    Cost NUMERIC(8),
+    SiteId INT REFERENCES Site(SiteId),
+    ClientId INT REFERENCES Clients(ClientId)
+);
+
 

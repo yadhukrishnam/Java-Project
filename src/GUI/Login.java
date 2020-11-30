@@ -4,22 +4,31 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import core.ClsAuthentication;
 
 public class Login {
 
 	private JFrame frame;
 	private JTextField textField;
 	private JPasswordField passwordField;
-
+	private Dashboard db ;
 	/**
 	 * Launch the application.
 	 */
@@ -27,8 +36,11 @@ public class Login {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login window = new Login();
-					window.frame.setVisible(true);
+					Dashboard db = new Dashboard();
+					
+					//Login window = new Login();
+					//window.frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,18 +61,23 @@ public class Login {
 	 * Initialize the contents of the frame.
 	 */ 
 	private void initialize() {
-		 
-		frame = new JFrame("Login to continue");
+		
+		frame = new JFrame("Authentication");
+		frame.getContentPane().setFont(new Font("Cantarell", Font.PLAIN, 12));
+		frame.getContentPane().setBackground(new Color(102, 153, 255));
+		frame.getContentPane().setForeground(Color.BLACK);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+	    frame.setAlwaysOnTop(true);
+	    db = new Dashboard();
+	    db.setEnabled(false);
 		textField = new JTextField();
 		textField.setBounds(167, 89, 238, 27);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblUsername = new JLabel("Username: ");
+		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setBounds(45, 92, 106, 21);
 		frame.getContentPane().add(lblUsername);
 		
@@ -76,39 +93,27 @@ public class Login {
 		msgLbl.setBounds(57, 170, 215, 27);
 		frame.getContentPane().add(msgLbl);
 		
-		JButton btnSubmit = new JButton("Submit");
+		JButton btnSubmit = new JButton("Login");
 		btnSubmit.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				new Dashboard();
-				frame.dispose();
-				/*
-				char[] password = passwordField.getPassword();
-				char[] correctPass = new char[] {'1', '2', '3'};
-				
-				
-				if (textField.getText().equals("admin") && Arrays.equals(password, correctPass))
+				ClsAuthentication auth = new ClsAuthentication();
+				if (auth.Authenticate(textField.getText(), (new String(passwordField.getPassword()))))  
 				{
-					msgLbl.setText("Loading.");
-					Dashboard db = new Dashboard();
+					db.setEnabled(true);
 					frame.dispose();
-					
 				} else {
-					JOptionPane.showMessageDialog(null, "Ayn nee edhaada naaye?", "Wrong credentials", 1);
-					//JOptionPane.showMessageDialog(null, "Wrong username or password");
-				}*/
-				
-				
+					JOptionPane.showMessageDialog(null, "Wrong username or password");
+				}
 			}
 		});
 
-		btnSubmit.setBounds(288, 173, 117, 34);
+		btnSubmit.setBounds(284, 181, 117, 34);
 		frame.getContentPane().add(btnSubmit);
-		
-
-		
 		JLabel lblAuthentication = new JLabel("LOGIN");
 		lblAuthentication.setBounds(45, 31, 348, 15);
 		frame.getContentPane().add(lblAuthentication);	
+  	  	frame.setLocationRelativeTo(null);
+  	  	frame.setResizable(false);
 	}
 }

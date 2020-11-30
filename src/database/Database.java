@@ -12,7 +12,7 @@ public class Database {
 	
     public Database() {
     	try {
-         connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lab-6", "postgres", "presario");
+         connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/JavaProject", "postgres", "presario");
     	} catch (Exception e) {
 	         e.printStackTrace();
 	         System.err.println("Database connectivity error !");

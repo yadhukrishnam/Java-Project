@@ -45,7 +45,7 @@ public class FormSite extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		setLocationRelativeTo(null);
 		JLabel lblNewLabel = new JLabel("Site ID");
 		lblNewLabel.setBounds(54, 60, 46, 14);
 		getContentPane().add(lblNewLabel);
@@ -84,7 +84,7 @@ public class FormSite extends JFrame {
 		txtSiteLocation.setBounds(207, 132, 190, 20);
 		getContentPane().add(txtSiteLocation);
 		txtSiteLocation.setColumns(10);
-		
+		setLocationRelativeTo(null);
 		JButton btnNewButton = new JButton("SAVE");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

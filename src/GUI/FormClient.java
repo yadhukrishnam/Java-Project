@@ -47,7 +47,7 @@ public class FormClient extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 400);
 		getContentPane().setLayout(null);
-		
+		setLocationRelativeTo(null);
 		JLabel lblNewLabel = new JLabel("First Name");
 		lblNewLabel.setBounds(36, 64, 164, 14);
 		getContentPane().add(lblNewLabel);

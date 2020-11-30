@@ -166,7 +166,6 @@ public class Building extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		} 
 		return false;
 	}

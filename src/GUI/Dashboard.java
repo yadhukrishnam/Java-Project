@@ -3,6 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -12,6 +13,7 @@ import core.Site;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.awt.Panel;
 import java.awt.event.ActionListener;
@@ -24,8 +26,8 @@ public class Dashboard extends JFrame {
 	public Dashboard() {
 		try {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(400, 100, 700, 500);
-			
+			setBounds(400, 100, 800, 600);
+			setResizable(false);
 			JMenuBar menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
 			
@@ -42,13 +44,21 @@ public class Dashboard extends JFrame {
 			mntmLogout.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					setVisible(false); 
 					Login login = new Login();
-					login.main("");
 					dispose(); 
 				}
 			});
+			
 			mnApplication.add(mntmLogout);
+			
+			JMenuItem mntmAbout = new JMenuItem("About");
+			mntmAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, "Construction Company Management System V.1.0", "About", 1);
+					
+				}
+			});
+			mnApplication.add(mntmAbout);
 			
 			JMenu mnClient = new JMenu("Client");
 			menuBar.add(mnClient);
@@ -138,7 +148,7 @@ public class Dashboard extends JFrame {
 			JMenuItem mntmSearchSite = new JMenuItem("Search Site");
 			mntmSearchSite.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					  String keyword =JOptionPane.showInputDialog(null,"Enter Search keyowrd");
+					  String keyword =JOptionPane.showInputDialog(null,"Enter Search keyoword");
 					  Site st = new Site();
 					  ArrayList<Site> sites  = st.searchSite(keyword);
 					  if (sites.size() == 0)
@@ -153,11 +163,12 @@ public class Dashboard extends JFrame {
 			mnSite.add(mntmSearchSite);
 			
 			contentPane = new JPanel();
-			contentPane.setBackground(new Color(112, 128, 144));
+			contentPane.setBackground(new Color(102, 153, 255));
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			contentPane.setLayout(new BorderLayout(0, 0));
+			setLocationRelativeTo(null);
 			setContentPane(contentPane);
-		
+			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("resources/backgroud.jpeg")))));
 			this.setTitle("CCMS Dashboard");
 			this.setVisible(true);
 		} catch (Exception e) {

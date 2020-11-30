@@ -48,7 +48,7 @@ public class BuildingList extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+		setLocationRelativeTo(null);
 		String col[] = {"Building ID","Building Name", "Building Type", "Year Of Construction", "Location", "Cost", "Current Owner"};
 		tableModel = new DefaultTableModel(col, 0);
 		
