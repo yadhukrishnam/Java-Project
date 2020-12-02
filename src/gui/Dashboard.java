@@ -225,10 +225,19 @@ public class Dashboard extends JFrame {
 			JMenuItem mntmViewStock = new JMenuItem("View Stock");
 			mntmViewStock.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					MaterialList ml = new MaterialList();
+					ml.isReorder = true; 
 				}
 			});
 			mnInventory.add(mntmViewStock);
+			
+			JMenuItem mntmViewOrders = new JMenuItem("View Orders");
+			mntmViewOrders.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					new OrderList(); 
+				}
+			});
+			mnInventory.add(mntmViewOrders);
 			
 			contentPane = new JPanel();
 			contentPane.setBackground(new Color(102, 153, 255));

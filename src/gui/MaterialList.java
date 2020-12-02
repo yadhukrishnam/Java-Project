@@ -22,6 +22,8 @@ public class MaterialList extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private Material ml;
+	public boolean isReorder = false;
+	
 	public void loadTable(ArrayList<Material> materials)
 	{
 		tableModel.setRowCount(0);
@@ -48,7 +50,7 @@ public class MaterialList extends JFrame {
 	{
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 800, 300);
+		setBounds(100, 100, 500, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -60,7 +62,7 @@ public class MaterialList extends JFrame {
 	
 	public MaterialList() {
 		generateForm();
-		String col[] = {"MaterialID","MaterialName","QtyAvailable", "ReOrderLevel"};
+		String col[] = {"Material ID","Material Name","Available Quantity", "Re-order Level"};
 		tableModel = new DefaultTableModel(col, 0);
 		
 		table = new JTable(tableModel) {
@@ -77,13 +79,18 @@ public class MaterialList extends JFrame {
 	         public void mouseClicked(MouseEvent me) {
 	            if (me.getClickCount() == 2) {   
 	            	
-	            	FormMaterial fm=new FormMaterial();
 	            	JTable target = (JTable)me.getSource();
 	            	int row = target.getSelectedRow(); // select a row
-	               
-	               	Material currentMaterial =new Material();
-	           		fm.setData(currentMaterial.getMaterial(Integer.parseInt(table.getValueAt(row, 0).toString())));
-	              
+	            	
+	            	if (isReorder == false) {
+	            		FormMaterial fm=new FormMaterial();
+	            		Material currentMaterial =new Material();
+		           		fm.setData(currentMaterial.getMaterial(Integer.parseInt(table.getValueAt(row, 0).toString())));
+	            	} else {
+	            		Material mt = new Material(Integer.parseInt(table.getValueAt(row, 0).toString()));
+	            		FormReorder fr = new FormReorder(mt);
+	            	}
+	               		              
 	           		dispose(); // to detect double click events
 	              
 	            }

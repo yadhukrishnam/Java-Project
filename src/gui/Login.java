@@ -36,10 +36,10 @@ public class Login {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//Dashboard db = new Dashboard();
+					Dashboard db = new Dashboard();
 					
-					Login window = new Login();
-					window.frame.setVisible(true);
+					//Login window = new Login();
+					//window.frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

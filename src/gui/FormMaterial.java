@@ -22,31 +22,18 @@ public class FormMaterial extends JFrame {
 	private JTextField textQtyAvailable;
 	private JTextField textReOrderLevel;
 
-	/**
-	 * Launch the application.
-	 */
-	
-	
-
-	/**
-	 * Create the application.
-	 */
 	public void setData(Material ml)
 	{
 		this.textMaterialID.setText(String.valueOf(ml.MaterialID)); 
 		this.textMaterialName.setText(ml.MaterialName);
 		this.textQtyAvailable.setText(String.valueOf(ml.QtyAvailable)); 
 		this.textReOrderLevel.setText(String.valueOf(ml.ReOrderLevel)); 
-
-			this.setTitle("Update Client");
+		this.setTitle("Update Client");
 	}
 	public FormMaterial() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
