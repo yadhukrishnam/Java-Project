@@ -111,14 +111,13 @@ public class FormReorder  extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Order OrderObj = new Order("IN", MaterialID, Integer.parseInt(textField.getText()), SupplierID);
-				if (OrderObj.PlaceOrder()) {
-					JOptionPane.showMessageDialog(null, "Could not place order.");
+				if (OrderObj.PlaceOrder() == true) {
+					JOptionPane.showMessageDialog(null, "Order placed successfully !");					
 				} else {
-					JOptionPane.showMessageDialog(null, "Order placed successfully !");
+					JOptionPane.showMessageDialog(null, "Could not place order.");
 				}
 			}
 		});
 		frame.getContentPane().add(btnNewButton);
-		System.out.print("REACHED");
 	}
-	}
+}

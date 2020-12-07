@@ -33,4 +33,19 @@ CREATE TABLE Building (
     ClientId INT REFERENCES Clients(ClientId)
 );
 
+CREATE TABLE Orders (
+    OrderId SERIAL PRIMARY KEY,
+    OrderDate DATE,
+    Mode CHAR(3) CHECK (Mode IN ('IN','OUT')),
+    MaterialId INT REFERENCES Materials(MaterialId), 
+    QuantityOrdered INT,
+    SupplierId INT REFERENCES Supplier(SupplierId), 
+    SiteId INT  REFERENCES Sites(SiteId)
+);
+
+CREATE TABLE Transaction (
+    TransactionId SERIAL PRIMARY KEY,
+    OrderId INT REFERENCES Orders(OrderId),
+    FullfilledDate DATE
+);
 

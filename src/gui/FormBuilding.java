@@ -46,6 +46,7 @@ public class FormBuilding extends JFrame {
 	private JComboBox<String> cmbSiteName;
 	private JLabel lblNewLabel_7_3;
 	private boolean isUpdate = false;
+	private JTextField txtOwnerId;
 	
 	public void setData(Building B)
 	{
@@ -56,6 +57,7 @@ public class FormBuilding extends JFrame {
 		cmbLocation.setSelectedItem(B.SiteLocation);
 		cmbBuildingType.setSelectedItem(B.BuildingType);
 		cmbSiteName.setSelectedItem(B.SiteName);
+		txtOwnerId.setText(String.valueOf(B.ClientId)); 
 		isUpdate = true;
 	}
 	
@@ -122,6 +124,7 @@ public class FormBuilding extends JFrame {
 		btnSave = new JButton("SAVE");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				Building Bl = new Building(
 						Integer.parseInt(txtBuildingId.getText()),
 						txtBuildingName.getText(), 
@@ -129,7 +132,7 @@ public class FormBuilding extends JFrame {
 						Integer.parseInt(txtYear.getText()),
 						String.valueOf(cmbSiteName.getSelectedItem()),
 						Long.parseLong(txtCost.getText()),
-						1
+						Integer.parseInt(txtOwnerId.getText()) 
 				);
 				if (isUpdate == true) 
 				{
@@ -186,6 +189,11 @@ public class FormBuilding extends JFrame {
 		contentPane.add(cmbLocation);
 		Site s = new Site(); 
 		ArrayList<String> location = s.getLocations();
+		if (location.size() == 0)
+		{
+			JOptionPane.showMessageDialog(null, "No sites exist.");
+			dispose(); 
+		}
 		cmbLocation.setSelectedIndex(-1);
 		cmbLocation.setModel(new DefaultComboBoxModel<String>(location.toArray(new String[0])));
 		cmbLocation.setSelectedIndex(-1);
@@ -201,15 +209,28 @@ public class FormBuilding extends JFrame {
 		});
 		
 		lblNewLabel_3_3 = new JLabel("Site Name");
-		lblNewLabel_3_3.setBounds(46, 250, 151, 14);
+		lblNewLabel_3_3.setBounds(46, 282, 151, 14);
 		contentPane.add(lblNewLabel_3_3);
 		
 		cmbSiteName = new JComboBox();
-		cmbSiteName.setBounds(256, 245, 165, 24);
+		cmbSiteName.setBounds(256, 277, 165, 24);
 		contentPane.add(cmbSiteName);
 		
 		lblNewLabel_7_3 = new JLabel(":");
-		lblNewLabel_7_3.setBounds(223, 250, 15, 14);
+		lblNewLabel_7_3.setBounds(223, 284, 15, 14);
 		contentPane.add(lblNewLabel_7_3);
+		
+		JLabel lblNewLabel_3_3_1 = new JLabel("Owner ID");
+		lblNewLabel_3_3_1.setBounds(46, 247, 151, 14);
+		contentPane.add(lblNewLabel_3_3_1);
+		
+		JLabel lblNewLabel_7_3_1 = new JLabel(":");
+		lblNewLabel_7_3_1.setBounds(223, 247, 15, 14);
+		contentPane.add(lblNewLabel_7_3_1);
+		
+		txtOwnerId = new JTextField();
+		txtOwnerId.setColumns(10);
+		txtOwnerId.setBounds(256, 245, 165, 20);
+		contentPane.add(txtOwnerId);
 	}
 }

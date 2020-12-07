@@ -29,8 +29,10 @@ public class MaterialList extends JFrame {
 		tableModel.setRowCount(0);
 		for(Material MaterialObj :materials)
 		{
+			
 			Object[] objs = {MaterialObj.MaterialID, MaterialObj.MaterialName, MaterialObj.QtyAvailable, MaterialObj.ReOrderLevel};
 			tableModel.addRow(objs);
+			
 		}
 	}
 	
@@ -84,8 +86,9 @@ public class MaterialList extends JFrame {
 	            	
 	            	if (isReorder == false) {
 	            		FormMaterial fm=new FormMaterial();
-	            		Material currentMaterial =new Material();
-		           		fm.setData(currentMaterial.getMaterial(Integer.parseInt(table.getValueAt(row, 0).toString())));
+	            		Material currentMaterial = new Material(Integer.parseInt(table.getValueAt(row, 0).toString()));
+		           		fm.setData(currentMaterial);
+		           		fm.isUpdate = true; 
 	            	} else {
 	            		Material mt = new Material(Integer.parseInt(table.getValueAt(row, 0).toString()));
 	            		FormReorder fr = new FormReorder(mt);
