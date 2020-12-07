@@ -36,10 +36,10 @@ public class Login {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard db = new Dashboard();
+					//Dashboard db = new Dashboard();
 					
-					//Login window = new Login();
-					//window.frame.setVisible(true);
+					Login window = new Login();
+					window.frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -97,14 +97,32 @@ public class Login {
 		btnSubmit.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				ClsAuthentication auth = new ClsAuthentication();
-				if (auth.Authenticate(textField.getText(), (new String(passwordField.getPassword()))))  
-				{
-					db.setEnabled(true);
-					frame.dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "Wrong username or password");
-				}
+					   ClsAuthentication auth = new ClsAuthentication();
+					   if (auth.Authenticate(textField.getText(), (new String(passwordField.getPassword()))).equals("supplier"))  
+					   {
+						   System.out.println("supplier");
+						   Dashboard db=new Dashboard();
+						   db.setEnabled(true);
+						   frame.dispose();
+					   }
+					   else if (auth.Authenticate(textField.getText(), (new String(passwordField.getPassword()))).equals("client"))  
+					   {
+						   System.out.println("client");
+						   Dashboard db=new Dashboard();
+						   db.setEnabled(true);
+						   frame.dispose();
+					   }
+					   else if (auth.Authenticate(textField.getText(), (new String(passwordField.getPassword()))).equals("admin"))  
+					   {
+						   System.out.println("admin");
+						   Dashboard db=new Dashboard();
+						   db.setEnabled(true);
+						   frame.dispose();
+					   }
+					   else 
+					   {
+						   JOptionPane.showMessageDialog(null, "Wrong username or password");
+					   }
 			}
 		});
 

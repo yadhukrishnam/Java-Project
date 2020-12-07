@@ -1,7 +1,8 @@
-CREATE TABLE Users (
-	UserId VARCHAR(30) PRIMARY KEY,
-	Passowrd VARCHAR(30) NOT NULL
-)
+create table USERS(
+	username varchar(100) primary key,
+	pwd varchar(18),
+	accounttype varchar(20)
+);
 
 INSERT INTO Users 
 VALUES ('admin', '123');
