@@ -150,9 +150,9 @@ public class FormSupplier {
 			 else {
 				if (S1.update() ) 
 				{
-					JOptionPane.showMessageDialog(null, "Supplier details updated !");
+					JOptionPane.showMessageDialog(null, "Client details updated !");
 				} else {
-					JOptionPane.showMessageDialog(null, "Could not update Supplier.");	
+					JOptionPane.showMessageDialog(null, "Could not update client.");	
 				}
 			}
 			frame.dispose();

@@ -21,7 +21,6 @@ public class FormMaterial extends JFrame {
 	private JTextField textMaterialName;
 	private JTextField textQtyAvailable;
 	private JTextField textReOrderLevel;
-	public boolean isUpdate = false; 
 
 	public void setData(Material ml)
 	{
@@ -77,10 +76,6 @@ public class FormMaterial extends JFrame {
 		textMaterialID.setBounds(238, 46, 151, 20);
 		frame.getContentPane().add(textMaterialID);
 		textMaterialID.setColumns(10);
-		if (isUpdate == true)
-		{
-			textMaterialID.setEnabled(false);
-		}
 		
 		textMaterialName = new JTextField();
 		textMaterialName.setBounds(238, 82, 151, 20);
@@ -101,31 +96,16 @@ public class FormMaterial extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Material M1=new Material(Integer.parseInt(textMaterialID.getText()),textMaterialName.getText(),Integer.parseInt(textQtyAvailable.getText()),Integer.parseInt(textReOrderLevel.getText()));
-				if (isUpdate == false)
+				if(M1.register())
 				{
-					if(M1.register())
-					{
-						JOptionPane.showMessageDialog(null, "New material added !");
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Materials not added !");
-					}
-				} else {
-					if(M1.update())
-					{
-						JOptionPane.showMessageDialog(null, "Materials updated !");
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Materials not updated !");
-					}
+					JOptionPane.showMessageDialog(null, "Materials updated !");
 				}
-				dispose(); 
+				else {
+					JOptionPane.showMessageDialog(null, "Materials not updated !");
+				}
 			}
 		});
 		btnSave.setBounds(300, 215, 89, 25);
-		
-
-		
 		frame.getContentPane().add(btnSave);
 		frame.setVisible(true);
 	}

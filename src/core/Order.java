@@ -17,29 +17,6 @@ public class Order extends Database {
 	
 	public Order(int OrderId) {
 		this.OrderId = OrderId; 
-		try {
-			String query = "SELECT * FROM Orders WHERE OrderId = ?"; 
-			PreparedStatement stmt = Query(query);
-			stmt.setInt(1, this.OrderId);
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				
-				this.OrderDate = rs.getDate("orderdate");
-				this.QuantityOrdered = rs.getInt("QuantityOrdered"); 
-				
-				if (rs.getInt("SupplierId") != 0) {
-					this.toId = rs.getInt("SupplierId");
-					this.Mode = "OUT"; 
-				} else {
-					this.toId = rs.getInt("SiteId");
-					this.Mode = "IN"; 
-				}
-				this.MaterialId = rs.getInt("materialid");
-			}
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
 	
 	
@@ -94,12 +71,11 @@ public class Order extends Database {
 	public boolean TransactOrder()
 	{
 		try {
-			String query = "INSERT INTO Transaction (OrderId, FullfilledDate) VALUES (?, (SELECT CURRENT_DATE))"; 
+			String query = 
+					"INSERT INTO Transaction (OrderId, FullfilledDate) VALUES (?, (SELECT CURRENT_DATE))"; 
 			PreparedStatement stmt = Query(query);
 			stmt.setInt(1, this.OrderId);
-			Material m = new Material(MaterialId);
-			m.updateQuantity(this.QuantityOrdered); 
-			
+			stmt.execute();
 			return true; 
 		} catch (Exception e)
 		{
@@ -114,25 +90,6 @@ public class Order extends Database {
 		try {
 			
 			ResultSet rs = Query("SELECT * FROM orders WHERE mode = 'IN' AND siteid IS null AND orderid NOT IN (SELECT Orderid FROM Transaction) ;").executeQuery();
-			int i = 0;
-			while(rs.next())
-			{
-				Order obj = new Order(rs.getInt(1), rs.getDate(2), "IN", rs.getInt("materialid"), rs.getInt("quantityordered"), rs.getInt("supplierid"));
-				orders.add(obj); 
-			}
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		} 
-		return orders;
-	} 
-	
-	public ArrayList<Order> getPastOrders ()
-	{
-		ArrayList<Order> orders = new ArrayList<Order>();
-		try {
-			
-			ResultSet rs = Query("SELECT * FROM orders WHERE mode = 'IN' AND siteid IS null AND orderid IN (SELECT Orderid FROM Transaction) ;").executeQuery();
 			int i = 0;
 			while(rs.next())
 			{

@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import core.Client;
-import core.Order;
 import core.Site;
 import core.Supplier;
 
@@ -118,6 +117,15 @@ public class Dashboard extends JFrame {
 			});
 			MenuSite.add(mntmManageBuildings);
 			
+			JMenuItem mntmChangeOwnership = new JMenuItem("Manage Ownership");
+			mntmChangeOwnership.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					BuildingList BL = new BuildingList();
+					BL.setSelection();
+				}
+			});
+			MenuSite.add(mntmChangeOwnership);
+			
 			JMenu mnSite = new JMenu("Site");
 			menuBar.add(mnSite);
 			
@@ -223,29 +231,13 @@ public class Dashboard extends JFrame {
 			});
 			mnInventory.add(mntmViewStock);
 			
-			JMenuItem mntmViewOrders = new JMenuItem("Pending Orders");
+			JMenuItem mntmViewOrders = new JMenuItem("View Orders");
 			mntmViewOrders.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					 OrderList ol = new OrderList("PENDING");
+					new OrderList(); 
 				}
 			});
 			mnInventory.add(mntmViewOrders);
-			
-			JMenuItem mntmTransactions = new JMenuItem("Past Orders");
-			mntmTransactions.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					OrderList ol = new OrderList("FULFILLED");
-				}
-			});
-			mnInventory.add(mntmTransactions);
-			
-			JMenuItem mntmStockRequests = new JMenuItem("Stock Requests");
-			mntmStockRequests.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					OrderList ol = new OrderList("SITEREQ");
-				}
-			});
-			mnInventory.add(mntmStockRequests);
 			
 			contentPane = new JPanel();
 			contentPane.setBackground(new Color(102, 153, 255));

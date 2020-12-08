@@ -84,6 +84,7 @@ public class Building extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			System.exit(0);
 		} 
 		return false;
 	}
@@ -122,7 +123,7 @@ public class Building extends Database {
 			PreparedStatement stmt = Query(
 				"UPDATE Building SET BuildingId = ?, BuildingName = ?, "
 				+ "BuildingType = ?, yearofconstruction = ?, cost = ?,"
-				+ "SiteId = ?, ClientId = ? WHERE BuildingId = ?"
+				+ "SiteId = ? WHERE BuildingId = ?"
 			);
 			stmt.setInt(1, this.BuildingId);
 			stmt.setString(2, this.BuildingName);
@@ -130,8 +131,7 @@ public class Building extends Database {
 			stmt.setLong(4, this.ConstructionYear);
 			stmt.setLong(5, this.Cost);
 			stmt.setInt(6, this.SiteId);
-			stmt.setInt(7, this.ClientId);
-			stmt.setInt(8, this.BuildingId);
+			stmt.setInt(7, this.BuildingId);
 					
 			if (stmt.executeUpdate() > 0)
 			{
@@ -142,6 +142,7 @@ public class Building extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			System.exit(0);
 		} 
 		return false;
 	}
