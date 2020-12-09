@@ -50,3 +50,20 @@ CREATE TABLE Transaction (
     FullfilledDate DATE
 );
 
+/* Supplier Start */
+CREATE TABLE supplier (
+    supplierid integer NOT NULL,
+    suppliername character varying(40),
+    address character varying(150),
+    materialid integer,
+    suppliercontact numeric(12,0),
+    suppliermailid character varying(50)
+);
+
+ALTER TABLE ONLY supplier
+    ADD CONSTRAINT supplier_pkey PRIMARY KEY (supplierid)
+
+ALTER TABLE ONLY supplier
+    ADD CONSTRAINT supplier_materialid_fkey FOREIGN KEY (materialid) REFERENCES materials(materialid);
+
+/* Supplier End */
