@@ -1,11 +1,11 @@
-create table USERS(
-	username varchar(100) primary key,
-	pwd varchar(18),
-	accounttype varchar(20)
+create table users(
+	UserName varchar(30) primary key,
+	UserId int ,
+	pwd varchar(30),
+	AccountType varchar(30)
 );
 
-INSERT INTO Users 
-VALUES ('admin', '123');
+
 
 
 CREATE TABLE Clients (
