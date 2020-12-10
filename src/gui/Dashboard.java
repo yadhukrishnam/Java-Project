@@ -51,6 +51,14 @@ public class Dashboard extends JFrame {
 				}
 			});
 			
+			JMenuItem mntmAccountRegistration = new JMenuItem("Account Registration");
+			mntmAccountRegistration.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new FormRegistration(); 
+				}
+			});
+			mnApplication.add(mntmAccountRegistration);
+			
 			mnApplication.add(mntmLogout);
 			
 			JMenuItem mntmAbout = new JMenuItem("About");

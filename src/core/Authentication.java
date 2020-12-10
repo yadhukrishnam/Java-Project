@@ -37,6 +37,24 @@ public class Authentication extends Database {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean CreateAccount()
+	{
+		try {
+			String Query = "INSERT INTO Users (UserId, AccountType, Username, Pwd) VALUES (?, ?, ?, ?)";
+			PreparedStatement stmt = Query(Query);
+			stmt.setInt(1, this.UserId);
+			stmt.setString(2, this.AccountType);
+			stmt.setString(3, this.Username);
+			stmt.setString(4, this.Password);
+			stmt.execute(); 
+			return true;
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 
 }

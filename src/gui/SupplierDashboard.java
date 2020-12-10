@@ -31,8 +31,17 @@ public class SupplierDashboard extends JFrame {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(400, 100, 800, 600);
 			setResizable(false);
+			
 			JMenuBar menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
+			
+			JButton btnLogout = new JButton("Logout");
+			btnLogout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose(); 	
+				}
+			});
+			menuBar.add(btnLogout);
 			
 			JButton btnNewButton = new JButton("New Orders");
 			menuBar.add(btnNewButton);
@@ -58,7 +67,7 @@ public class SupplierDashboard extends JFrame {
 			contentPane.setLayout(new BorderLayout(0, 0));
 			setLocationRelativeTo(null);
 			
-			//setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("resources/backgroud.jpeg")))));
+			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("resources/backgroud.jpeg")))));
 			this.setTitle("Dashboard - Supplier Dashboard ");
 			getContentPane().setLayout(null);
 			this.setVisible(true);
