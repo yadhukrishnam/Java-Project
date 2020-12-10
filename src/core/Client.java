@@ -21,7 +21,7 @@ public class Client extends Database {
 	public Client (int ClientId)
 	{
 		try {
-			PreparedStatement stmt = Query("SELECT * FROM Clients WHERE ClientId = ?");
+			PreparedStatement stmt = Query("SELECT * FROM Clients WHERE ClientId = ? ORDER BY ClientId");
 			stmt.setLong(1, ClientId);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next())

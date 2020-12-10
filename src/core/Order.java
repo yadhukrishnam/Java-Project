@@ -17,6 +17,29 @@ public class Order extends Database {
 	
 	public Order(int OrderId) {
 		this.OrderId = OrderId; 
+		try {
+			String query = "SELECT * FROM Orders WHERE OrderId = ?"; 
+			PreparedStatement stmt = Query(query);
+			stmt.setInt(1, this.OrderId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				
+				this.OrderDate = rs.getDate("orderdate");
+				this.QuantityOrdered = rs.getInt("QuantityOrdered"); 
+				
+				if (rs.getInt("SupplierId") != 0) {
+					this.toId = rs.getInt("SupplierId");
+					this.Mode = "OUT"; 
+				} else {
+					this.toId = rs.getInt("SiteId");
+					this.Mode = "IN"; 
+				}
+				this.MaterialId = rs.getInt("materialid");
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -71,11 +94,12 @@ public class Order extends Database {
 	public boolean TransactOrder()
 	{
 		try {
-			String query = 
-					"INSERT INTO Transaction (OrderId, FullfilledDate) VALUES (?, (SELECT CURRENT_DATE))"; 
+			String query = "INSERT INTO Transaction (OrderId, FullfilledDate) VALUES (?, (SELECT CURRENT_DATE))"; 
 			PreparedStatement stmt = Query(query);
 			stmt.setInt(1, this.OrderId);
-			stmt.execute();
+			Material m = new Material(MaterialId);
+			m.updateQuantity(this.QuantityOrdered); 
+			stmt.execute(); 
 			return true; 
 		} catch (Exception e)
 		{
@@ -84,12 +108,33 @@ public class Order extends Database {
 		return false;
 	}
 	
+	// Returns all pending orders to suppliers in table
 	public ArrayList<Order> getPendingOrders ()
 	{
 		ArrayList<Order> orders = new ArrayList<Order>();
 		try {
 			
 			ResultSet rs = Query("SELECT * FROM orders WHERE mode = 'IN' AND siteid IS null AND orderid NOT IN (SELECT Orderid FROM Transaction) ;").executeQuery();
+			int i = 0;
+			while(rs.next())
+			{
+				Order obj = new Order(rs.getInt(1), rs.getDate(2), "IN", rs.getInt("materialid"), rs.getInt("quantityordered"), rs.getInt("supplierid"));
+				orders.add(obj); 
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} 
+		return orders;
+	} 
+		
+	// Returns all fulfilled orders by suppliers
+	public ArrayList<Order> getPastOrders ()
+	{
+		ArrayList<Order> orders = new ArrayList<Order>();
+		try {
+			
+			ResultSet rs = Query("SELECT * FROM orders WHERE mode = 'IN' AND siteid IS null AND orderid IN (SELECT Orderid FROM Transaction) ;").executeQuery();
 			int i = 0;
 			while(rs.next())
 			{
@@ -118,4 +163,60 @@ public class Order extends Database {
 		return false;
 	}
 	
+	public ArrayList<Order> getSitePendingOrders (int SiteId)
+	{
+		ArrayList<Order> orders = new ArrayList<Order>();
+		try {
+			String query = "SELECT * FROM orders WHERE SiteId = ? AND OrderId NOT IN (SELECT OrderId FROM Transaction)"; 
+			PreparedStatement stmt = Query(query);
+			stmt.setInt(1, SiteId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				orders.add(new Order(rs.getInt("OrderId")));
+			}
+			System.out.println(orders); 
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return orders;
+	}
+	
+	public ArrayList<Order> getSitePastOrders (int SiteId)
+	{
+		ArrayList<Order> orders = new ArrayList<Order>();
+		try {
+			String query = "SELECT * FROM orders WHERE SiteId = ? AND OrderId IN (SELECT OrderId FROM Transaction)"; 
+			PreparedStatement stmt = Query(query);
+			stmt.setInt(1, SiteId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				orders.add(new Order(rs.getInt("OrderId")));
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return orders;
+	}
+	
+	public ArrayList<Order> getSitePendingOrders ()
+	{
+		ArrayList<Order> orders = new ArrayList<Order>();
+		try {
+			String query = "SELECT * FROM orders WHERE OrderId NOT IN (SELECT OrderId FROM Transaction)"; 
+			PreparedStatement stmt = Query(query);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				orders.add(new Order(rs.getInt("OrderId")));
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return orders;
+	}
 }

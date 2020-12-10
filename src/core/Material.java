@@ -78,7 +78,6 @@ public class Material extends Database{
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		}
 		return materials; 
 	}
@@ -100,7 +99,6 @@ public class Material extends Database{
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		}
 		return this;
 	}
@@ -122,18 +120,19 @@ public class Material extends Database{
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		} 
 		return false;
 	}
    public boolean update()
 	{
 		try {
-			PreparedStatement stmt = Query("UPDATE Materials SET MaterialID = ?, MaterialName = ?, quantityavailable = ?, ReOrderLevel = ?");
-			stmt.setInt(1, this.MaterialID);
-			stmt.setString(2, this.MaterialName);
-			stmt.setInt(3, this.QtyAvailable);
-			stmt.setInt(4, this.ReOrderLevel);
+			PreparedStatement stmt = Query("UPDATE Materials SET MaterialName = ?, "
+					+ "quantityavailable = ?, ReOrderLevel = ? WHERE MaterialID = ?");
+			stmt.setString(1, this.MaterialName);
+			stmt.setInt(2, this.QtyAvailable);
+			stmt.setInt(3, this.ReOrderLevel);
+			stmt.setInt(4, this.MaterialID);
+			
 			if (stmt.executeUpdate() > 0)
 			{
 				return true;
@@ -143,7 +142,6 @@ public class Material extends Database{
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		} 
 		return false;
 	}
@@ -161,5 +159,20 @@ public class Material extends Database{
 			e.printStackTrace();
 		}
 	   return 0;
+   }
+   
+   public boolean updateQuantity(int quantity)
+   {
+	   try {
+			PreparedStatement stmt = Query("UPDATE Materials SET QuantityAvailable = QuantityAvailable + ? WHERE MaterialId = ?");
+			stmt.setInt(1, quantity);
+			stmt.setLong(2, this.MaterialID);
+			stmt.executeUpdate(); 
+			return true; 
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	   return false;
    }
 }

@@ -8,41 +8,47 @@ import database.Database;
 
 public class Building extends Database {
 	public int BuildingId; 
-	public String BuildingName, BuildingType, SiteName, SiteLocation, OwnerName;
+	public String BuildingName, BuildingType, SiteName, SiteLocation, OwnerName, feedback;
 	public int ConstructionYear, SiteId, ClientId;
 	public long Cost;
 	
 	public Building() {} 
 	
-	public Building getBuilding(int Bid)
+	public Building(int Bid)
 	{
-		Building B = new Building(); 
 		try {
-				
+			
 			PreparedStatement stmt = Query("SELECT * FROM Building B JOIN Sites S ON S.SiteId = B.SiteId WHERE BuildingId = ? ");
 			stmt.setInt(1, Bid); 
 			ResultSet rs = stmt.executeQuery(); 
 			while(rs.next())
 			{
-				 return new Building(
-						 rs.getInt("BuildingId"),
-						 rs.getString("BuildingName"),
-						 rs.getString("Buildingtype"),
-						 rs.getInt("YearOfConstruction"),
-						 rs.getString("SiteName"),
-						 rs.getLong("Cost"),
-						 rs.getInt("ClientId")
-				);
-				 
+				
+				this.BuildingId = rs.getInt("BuildingId");
+				this.BuildingName = rs.getString("BuildingName");
+				this.BuildingType = rs.getString("Buildingtype");
+				this.ConstructionYear = rs.getInt("YearOfConstruction");
+				this.ClientId = rs.getInt("ClientId");
+				this.Cost =  rs.getLong("Cost");
+				this.SiteName = rs.getString("SiteName");
+				
+				Site s = new Site();
+				this.SiteId = s.getSiteId(SiteName);
+				
+				Client c = new Client(this.ClientId);
+				this.OwnerName = c.FirstName + " " + c.LastName + " " + c.MidName; 
+				
+				this.SiteLocation = s.getSiteLocation(this.SiteName);
+				this.feedback = rs.getString("feedback");
 			}
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		} 
-		return B;
 	}
 	
-	public Building(int Bid, String Bname, String BType, int CYear, String SiteName, long Cost , int ClientId)
+	
+	public Building(int Bid, String Bname, String BType, int CYear, String SiteName, long Cost , int ClientId, String feedback)
 	{
 		
 		this.BuildingId = Bid;
@@ -60,13 +66,13 @@ public class Building extends Database {
 		this.OwnerName = c.FirstName + " " + c.LastName + " " + c.MidName; 
 		
 		this.SiteLocation = s.getSiteLocation(this.SiteName);
-		
+		this.feedback = feedback;
 	}
 	
 	public boolean register()
 	{
 		try {
-			PreparedStatement stmt = Query("INSERT INTO Building VALUES (?, ?, ?, ?, ?, ?, ? )");
+			PreparedStatement stmt = Query("INSERT INTO Building VALUES (?, ?, ?, ?, ?, ?, ? , '')");
 			stmt.setInt(1, this.BuildingId);
 			stmt.setString(2, this.BuildingName);
 			stmt.setString(3, this.BuildingType);
@@ -84,7 +90,6 @@ public class Building extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		} 
 		return false;
 	}
@@ -98,7 +103,6 @@ public class Building extends Database {
 			ResultSet rs = stmt.executeQuery(); 
 			while(rs.next())
 			{
-				//int Bid, String Bname, String BType, int CYear, String SiteName, long Cost , int ClientId
 				 buildings.add(
 						 new Building(
 								 rs.getInt(1), 
@@ -107,7 +111,8 @@ public class Building extends Database {
 								 rs.getInt(4),
 								 rs.getString("sitename"),
 								 rs.getLong("cost"),
-								 rs.getInt("ClientId")
+								 rs.getInt("ClientId"),
+								 rs.getString("feedback")
 				));
 			}
 		} catch (Exception e)
@@ -123,7 +128,7 @@ public class Building extends Database {
 			PreparedStatement stmt = Query(
 				"UPDATE Building SET BuildingId = ?, BuildingName = ?, "
 				+ "BuildingType = ?, yearofconstruction = ?, cost = ?,"
-				+ "SiteId = ? WHERE BuildingId = ?"
+				+ "SiteId = ?, ClientId = ?, feedback = ? WHERE BuildingId = ?"
 			);
 			stmt.setInt(1, this.BuildingId);
 			stmt.setString(2, this.BuildingName);
@@ -131,7 +136,9 @@ public class Building extends Database {
 			stmt.setLong(4, this.ConstructionYear);
 			stmt.setLong(5, this.Cost);
 			stmt.setInt(6, this.SiteId);
-			stmt.setInt(7, this.BuildingId);
+			stmt.setInt(7, this.ClientId);
+			stmt.setString(8, this.feedback);
+			stmt.setInt(9, this.BuildingId);
 					
 			if (stmt.executeUpdate() > 0)
 			{
@@ -142,7 +149,6 @@ public class Building extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		} 
 		return false;
 	}
@@ -170,5 +176,32 @@ public class Building extends Database {
 		return false;
 	}
 	
+	public ArrayList<Building> getBuildingsOwned (int ClientId){
+		ArrayList<Building> buildings = new ArrayList<Building>();
+		try {
+			
+			PreparedStatement stmt = Query("SELECT * FROM Building B JOIN Sites S ON S.SiteId = B.SiteId WHERE B.ClientId = ?");
+			stmt.setInt(1, ClientId);
+			ResultSet rs = stmt.executeQuery(); 
+			while(rs.next())
+			{
+				 buildings.add(
+						 new Building(
+								 rs.getInt(1), 
+								 rs.getString(2), 
+								 rs.getString(3),
+								 rs.getInt(4),
+								 rs.getString("sitename"),
+								 rs.getLong("cost"),
+								 rs.getInt("ClientId"),
+								 rs.getString("feedback")
+				));
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} 
+		return buildings;
+	}
 	
 }

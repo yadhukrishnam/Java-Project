@@ -57,6 +57,7 @@ public class ClientList extends JFrame{
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
+		setResizable(false);
 	}
 	public ClientList() {
 		generateForm(); 

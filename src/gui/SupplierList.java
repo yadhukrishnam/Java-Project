@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import core.Material;
 import core.Supplier;
 
 
@@ -31,7 +32,8 @@ public class SupplierList extends JFrame {
 		
 		for(Supplier SupplierObj :suppliers)
 		{
-			Object[] objs = {SupplierObj.SupplierId, SupplierObj.SupplierName, SupplierObj.Address, SupplierObj.MaterialId, SupplierObj.SupplierContact, SupplierObj.SupplierMailId};
+			Material m = new Material(SupplierObj.MaterialId); 
+			Object[] objs = {SupplierObj.SupplierId, SupplierObj.SupplierName, SupplierObj.Address, SupplierObj.MaterialId, m.MaterialName, SupplierObj.SupplierContact, SupplierObj.SupplierMailId};
 			tableModel.addRow(objs);
 			
 		}
@@ -45,7 +47,8 @@ public class SupplierList extends JFrame {
 		S1 = new Supplier();
 		for(Supplier SupplierObj :suppliers)
 		{
-			Object[] objs = {SupplierObj.SupplierId, SupplierObj.SupplierName, SupplierObj.Address, SupplierObj.MaterialId, SupplierObj.SupplierContact, SupplierObj.SupplierMailId};
+			Material m = new Material(SupplierObj.MaterialId); 
+			Object[] objs = {SupplierObj.SupplierId, SupplierObj.SupplierName, SupplierObj.Address, SupplierObj.MaterialId, m.MaterialName, SupplierObj.SupplierContact, SupplierObj.SupplierMailId};
 			tableModel.addRow(objs);
 		}
 	}
@@ -59,7 +62,7 @@ public class SupplierList extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		String col[] = {"SupplierID","SupplierName", "Address", "MaterialId", "SupplierContact", "SupplierMailId"};
+		String col[] = {"Supplier ID","Supplier Name", "Address", "Material Id", "Material Name"  , "Contact", "Mail Id"};
 		tableModel = new DefaultTableModel(col, 0);
 		
 		table = new JTable(tableModel) {

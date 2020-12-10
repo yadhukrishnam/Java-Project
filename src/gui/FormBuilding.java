@@ -46,6 +46,9 @@ public class FormBuilding extends JFrame {
 	private JComboBox<String> cmbSiteName;
 	private JLabel lblNewLabel_7_3;
 	private boolean isUpdate = false;
+	private JTextField txtOwnerId;
+	private JLabel lblNewLabel_7_4;
+	private JTextField txtFeedback;
 	
 	public void setData(Building B)
 	{
@@ -56,6 +59,8 @@ public class FormBuilding extends JFrame {
 		cmbLocation.setSelectedItem(B.SiteLocation);
 		cmbBuildingType.setSelectedItem(B.BuildingType);
 		cmbSiteName.setSelectedItem(B.SiteName);
+		txtOwnerId.setText(String.valueOf(B.ClientId));
+		txtFeedback.setText(B.feedback);
 		isUpdate = true;
 	}
 	
@@ -63,7 +68,7 @@ public class FormBuilding extends JFrame {
 		this.setTitle("New Building");
 		setVisible(true); 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 400);
+		setBounds(100, 100, 450, 500);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,6 +127,7 @@ public class FormBuilding extends JFrame {
 		btnSave = new JButton("SAVE");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				Building Bl = new Building(
 						Integer.parseInt(txtBuildingId.getText()),
 						txtBuildingName.getText(), 
@@ -129,7 +135,8 @@ public class FormBuilding extends JFrame {
 						Integer.parseInt(txtYear.getText()),
 						String.valueOf(cmbSiteName.getSelectedItem()),
 						Long.parseLong(txtCost.getText()),
-						1
+						Integer.parseInt(txtOwnerId.getText()) ,
+						txtFeedback.getText()
 				);
 				if (isUpdate == true) 
 				{
@@ -150,7 +157,7 @@ public class FormBuilding extends JFrame {
 				dispose(); 
 			}
 		});
-		btnSave.setBounds(305, 313, 116, 25);
+		btnSave.setBounds(36, 427, 385, 25);
 		getContentPane().add(btnSave);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("Cost");
@@ -186,6 +193,11 @@ public class FormBuilding extends JFrame {
 		contentPane.add(cmbLocation);
 		Site s = new Site(); 
 		ArrayList<String> location = s.getLocations();
+		if (location.size() == 0)
+		{
+			JOptionPane.showMessageDialog(null, "No sites exist.");
+			dispose(); 
+		}
 		cmbLocation.setSelectedIndex(-1);
 		cmbLocation.setModel(new DefaultComboBoxModel<String>(location.toArray(new String[0])));
 		cmbLocation.setSelectedIndex(-1);
@@ -201,15 +213,41 @@ public class FormBuilding extends JFrame {
 		});
 		
 		lblNewLabel_3_3 = new JLabel("Site Name");
-		lblNewLabel_3_3.setBounds(46, 250, 151, 14);
+		lblNewLabel_3_3.setBounds(46, 282, 151, 14);
 		contentPane.add(lblNewLabel_3_3);
 		
 		cmbSiteName = new JComboBox();
-		cmbSiteName.setBounds(256, 245, 165, 24);
+		cmbSiteName.setBounds(256, 277, 165, 24);
 		contentPane.add(cmbSiteName);
 		
 		lblNewLabel_7_3 = new JLabel(":");
-		lblNewLabel_7_3.setBounds(223, 250, 15, 14);
+		lblNewLabel_7_3.setBounds(223, 284, 15, 14);
 		contentPane.add(lblNewLabel_7_3);
+		
+		JLabel lblNewLabel_3_3_1 = new JLabel("Owner ID");
+		lblNewLabel_3_3_1.setBounds(46, 247, 151, 14);
+		contentPane.add(lblNewLabel_3_3_1);
+		
+		JLabel lblNewLabel_7_3_1 = new JLabel(":");
+		lblNewLabel_7_3_1.setBounds(223, 247, 15, 14);
+		contentPane.add(lblNewLabel_7_3_1);
+		
+		txtOwnerId = new JTextField();
+		txtOwnerId.setColumns(10);
+		txtOwnerId.setBounds(256, 245, 165, 20);
+		contentPane.add(txtOwnerId);
+		
+		JLabel lblNewLabel_3_3_2 = new JLabel("Feedback");
+		lblNewLabel_3_3_2.setBounds(47, 320, 151, 14);
+		contentPane.add(lblNewLabel_3_3_2);
+		
+		lblNewLabel_7_4 = new JLabel(":");
+		lblNewLabel_7_4.setBounds(223, 320, 15, 14);
+		contentPane.add(lblNewLabel_7_4);
+		
+		txtFeedback = new JTextField();
+		txtFeedback.setBounds(256, 318, 165, 95);
+		contentPane.add(txtFeedback);
+		txtFeedback.setColumns(10);
 	}
 }

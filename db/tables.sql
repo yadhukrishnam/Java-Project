@@ -34,6 +34,8 @@ CREATE TABLE Building (
     ClientId INT REFERENCES Clients(ClientId)
 );
 
+ALTER TABLE Building ADD COLUMN feedback varchar(150);
+
 CREATE TABLE Orders (
     OrderId SERIAL PRIMARY KEY,
     OrderDate DATE,

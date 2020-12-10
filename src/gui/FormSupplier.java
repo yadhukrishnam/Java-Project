@@ -53,16 +53,18 @@ public class FormSupplier {
 		this.SupplierContact.setText(String.valueOf(S1.SupplierContact));
 		this.SupplierMailId.setText(String.valueOf(S1.SupplierMailId));
 		this.isUpdate=true;
+		
 			
 	}
 	private void initialize() {
-		
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 		
 		JLabel s = new JLabel("SUPPLIER ID");
 		s.setBounds(70, 49, 156, 13);
@@ -150,9 +152,9 @@ public class FormSupplier {
 			 else {
 				if (S1.update() ) 
 				{
-					JOptionPane.showMessageDialog(null, "Client details updated !");
+					JOptionPane.showMessageDialog(null, "Supplier details updated !");
 				} else {
-					JOptionPane.showMessageDialog(null, "Could not update client.");	
+					JOptionPane.showMessageDialog(null, "Could not update Supplier.");	
 				}
 			}
 			frame.dispose();

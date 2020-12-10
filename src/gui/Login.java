@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
-import core.ClsAuthentication;
+import core.Authentication;
 
 public class Login {
 
@@ -36,8 +36,6 @@ public class Login {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//Dashboard db = new Dashboard();
-					
 					Login window = new Login();
 					window.frame.setVisible(true);
 					
@@ -70,9 +68,7 @@ public class Login {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 	    frame.setAlwaysOnTop(true);
-	    db = new Dashboard();
-	    db.setEnabled(false);
-		textField = new JTextField();
+	    textField = new JTextField();
 		textField.setBounds(167, 89, 238, 27);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
@@ -97,24 +93,27 @@ public class Login {
 		btnSubmit.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				   ClsAuthentication auth = new ClsAuthentication(textField.getText(), new String(passwordField.getPassword()));
+				   Authentication auth = new Authentication(textField.getText(), new String(passwordField.getPassword()));
 				   auth.Authenticate();
 				   if (auth.isAuthenticated)
 				   {
 					   switch (auth.AccountType) {
 						   case "supplier":
-							   		System.out.print("Supplier");
+							   		new SupplierDashboard(); 
 							   		break;
 						   case "client" :
-							   		System.out.print("Client");
+							   		new DashboardClient(auth.UserId, auth.Username); 
 							   		break;
 						   case "admin":
-							   		Dashboard db = new Dashboard(); 
+							   		new Dashboard(); 
 							   		break;
 						   case "siteadmin" :
 							   		System.out.print("Site Admin");
+							   		new DashboardSiteManager(auth.UserId, auth.Username); 
 							   		break;
 					   }
+					   
+					   frame.dispose();
 				   } else {
 					   JOptionPane.showMessageDialog(null, "Wrong Username or Password.");
 				   }

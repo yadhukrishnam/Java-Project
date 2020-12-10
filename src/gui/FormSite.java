@@ -106,7 +106,7 @@ public class FormSite extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(308, 169, 89, 23);
+		btnNewButton.setBounds(308, 200, 89, 23);
 		getContentPane().add(btnNewButton);
 	}
 
