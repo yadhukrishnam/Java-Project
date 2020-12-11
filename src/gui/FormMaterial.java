@@ -29,7 +29,7 @@ public class FormMaterial extends JFrame {
 		this.textMaterialName.setText(ml.MaterialName);
 		this.textQtyAvailable.setText(String.valueOf(ml.QtyAvailable)); 
 		this.textReOrderLevel.setText(String.valueOf(ml.ReOrderLevel)); 
-		this.setTitle("Update Client");
+		this.setTitle("Update Material");
 	}
 	public FormMaterial() {
 		initialize();

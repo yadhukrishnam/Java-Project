@@ -79,7 +79,8 @@ public class DashboardSiteManager extends JFrame {
 		
 		for(Order order: orders)
 		{
-			Object[] objs = {order.OrderId, order.OrderDate, order.MaterialId, order.QuantityOrdered };
+			Material m = new Material(order.MaterialId);
+			Object[] objs = {order.OrderId, order.OrderDate,m.MaterialName, order.QuantityOrdered, order.getFulfilledDate() };
 			tm.addRow(objs);
 		}
 	}
@@ -126,7 +127,7 @@ public class DashboardSiteManager extends JFrame {
 		String MaterialsTableCols[] = {"Material Id", "Material Name"}; 
 		JTable MaterialsTable = generateTable(MaterialsTableCols);
 		
-		String TransactionTableCols[] = {"Order ID","Order Date", "Material Name", "Quantity Ordered" , "Fulfill Date"};
+		String TransactionTableCols[] = {"Order ID","Order Date", "Material Name", "Quantity Ordered", "Transaction Date" };
 		JTable TransactionTable = generateTable(TransactionTableCols);
 		
 		

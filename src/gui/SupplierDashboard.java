@@ -25,8 +25,10 @@ import java.awt.FlowLayout;
 public class SupplierDashboard extends JFrame {
 
 	private JPanel contentPane;
-
-	public SupplierDashboard() {
+	private int userId;
+	
+	public SupplierDashboard(int UserId) {
+		this.userId = UserId; 
 		try {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(400, 100, 800, 600);
@@ -50,14 +52,12 @@ public class SupplierDashboard extends JFrame {
 			menuBar.add(btnNewButton_1);
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("history");
-					 SupplierOrderList ol = new SupplierOrderList("FULFILLED");
+					 SupplierOrderList ol = new SupplierOrderList(UserId, "FULFILLED");
 				}
 			});
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("sxrdctfvygbhnj");
-					 SupplierOrderList ol = new SupplierOrderList("PENDING");
+					 SupplierOrderList ol = new SupplierOrderList(UserId, "PENDING");
 				}
 			});
 			

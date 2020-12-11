@@ -44,7 +44,16 @@ public class OrderList extends JFrame {
 			String strDate = dateFormat.format(OrderObj.OrderDate);  
 			
 			Material m = new Material(OrderObj.MaterialId); 
-			Object[] objs = {OrderObj.OrderId, OrderObj.MaterialId, m.MaterialName , OrderObj.toId, m.SupplierName, OrderObj.QuantityOrdered,  strDate};
+			Object[] objs = {
+					OrderObj.OrderId, 
+					OrderObj.MaterialId, 
+					m.MaterialName , 
+					OrderObj.toId,
+					m.SupplierName, 
+					OrderObj.QuantityOrdered,  
+					strDate, 
+					OrderObj.getFulfilledDate()
+			};
 			
 			tableModel.addRow(objs);
 		}
@@ -100,7 +109,7 @@ public class OrderList extends JFrame {
 			tableModel = new DefaultTableModel(col, 0);
 			SupplierPendingOrders(); 
 		} else if (mode == "FULFILLED"){
-			String col[] = {"Order ID", "Material ID" , "Material Name", "Supplier ID" , "Supplier Name", "Quantity Ordered" , "Order Date"};
+			String col[] = {"Order ID", "Material ID" , "Material Name", "Supplier ID" , "Supplier Name", "Quantity Ordered" , "Order Date", "Transaction Date"};
 			tableModel = new DefaultTableModel(col, 0);
 			Order o = new Order();
 			SupplierPastOrders(o.getPastOrders());
@@ -123,6 +132,7 @@ public class OrderList extends JFrame {
 			pendingOrderTable.addMouseListener(new MouseAdapter() {
 		         public void mouseClicked(MouseEvent me) {
 		            if (me.getClickCount() == 2) {
+		            	
 		            	if (mode == "PENDING" || mode == "SITEREQ")  {
 		            		
 		            		Object[] options;
@@ -162,6 +172,7 @@ public class OrderList extends JFrame {
 			            	   }
 			            	   SupplierPendingOrders();
 			               }
+			            	dispose(); 
 		            	} 
 		         }
 		    }});

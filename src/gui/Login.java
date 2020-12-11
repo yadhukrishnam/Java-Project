@@ -67,7 +67,6 @@ public class Login {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-	    frame.setAlwaysOnTop(true);
 	    textField = new JTextField();
 		textField.setBounds(167, 89, 238, 27);
 		frame.getContentPane().add(textField);
@@ -99,7 +98,7 @@ public class Login {
 				   {
 					   switch (auth.AccountType) {
 						   case "supplier":
-							   		new SupplierDashboard(); 
+							   		new SupplierDashboard(auth.UserId); 
 							   		break;
 						   case "client" :
 							   		new DashboardClient(auth.UserId, auth.Username); 
@@ -117,8 +116,8 @@ public class Login {
 				   } else {
 					   JOptionPane.showMessageDialog(null, "Wrong Username or Password.");
 				   }
-		}
-	});
+			}
+		});
 
 		btnSubmit.setBounds(284, 181, 117, 34);
 		frame.getContentPane().add(btnSubmit);

@@ -69,7 +69,7 @@ public class SupplierOrderList extends JFrame {
 		
 	}
 	
-	public SupplierOrderList(String mode) {
+	public SupplierOrderList(int SupplierId, String mode) {
 		setVisible(true); 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 300);
@@ -82,7 +82,7 @@ public class SupplierOrderList extends JFrame {
 			tableModel = new DefaultTableModel(col, 0);
 			SupplierPendingOrders(); 
 		} else if (mode == "FULFILLED"){
-			String col[] = {"Order ID","Mode", "Material ID" , "Material Name", "Quantity Ordered" , "Order Date"};
+			String col[] = {"Order ID","Mode", "Material ID" , "Material Name", "Quantity Ordered" , "Order Date", "Fulfilled Date"};
 			tableModel = new DefaultTableModel(col, 0);
 			Order o = new Order();
 			SupplierPastOrders(o.getPastOrders());

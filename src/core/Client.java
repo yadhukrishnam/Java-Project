@@ -36,7 +36,6 @@ public class Client extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		}
 	}
 	
@@ -63,7 +62,6 @@ public class Client extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		}
 		return clients; 
 	}
@@ -88,7 +86,6 @@ public class Client extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		}
 		return clients; 
 	}
@@ -111,7 +108,6 @@ public class Client extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		}
 		return this;
 	}
@@ -135,7 +131,6 @@ public class Client extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		} 
 		return false;
 	}
@@ -160,7 +155,6 @@ public class Client extends Database {
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.exit(0);
 		} 
 		return false;
 	}

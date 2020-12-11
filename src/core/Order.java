@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import database.Database;
@@ -167,7 +169,7 @@ public class Order extends Database {
 	{
 		ArrayList<Order> orders = new ArrayList<Order>();
 		try {
-			String query = "SELECT * FROM orders WHERE SiteId = ? AND OrderId NOT IN (SELECT OrderId FROM Transaction)"; 
+			String query = "SELECT * FROM orders WHERE SiteId = ? AND mode = 'OUT' AND OrderId NOT IN (SELECT OrderId FROM Transaction)"; 
 			PreparedStatement stmt = Query(query);
 			stmt.setInt(1, SiteId);
 			ResultSet rs = stmt.executeQuery();
@@ -187,7 +189,7 @@ public class Order extends Database {
 	{
 		ArrayList<Order> orders = new ArrayList<Order>();
 		try {
-			String query = "SELECT * FROM orders WHERE SiteId = ? AND OrderId IN (SELECT OrderId FROM Transaction)"; 
+			String query = "SELECT * FROM orders WHERE SiteId = ? AND mode = 'OUT' AND OrderId IN (SELECT OrderId FROM Transaction)"; 
 			PreparedStatement stmt = Query(query);
 			stmt.setInt(1, SiteId);
 			ResultSet rs = stmt.executeQuery();
@@ -206,7 +208,7 @@ public class Order extends Database {
 	{
 		ArrayList<Order> orders = new ArrayList<Order>();
 		try {
-			String query = "SELECT * FROM orders WHERE OrderId NOT IN (SELECT OrderId FROM Transaction)"; 
+			String query = "SELECT * FROM orders WHERE mode = 'OUT' AND OrderId  NOT IN (SELECT OrderId FROM Transaction)"; 
 			PreparedStatement stmt = Query(query);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
@@ -219,4 +221,25 @@ public class Order extends Database {
 		}
 		return orders;
 	}
+	
+	public String getFulfilledDate()
+	{
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+			 
+			
+			String query = "SELECT * FROM transaction where orderid = ? limit 1"; 
+			PreparedStatement stmt = Query(query);
+			stmt.setInt(1, this.OrderId);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			String strDate = dateFormat.format(rs.getDate(("fullfilleddate")));
+			return strDate; 
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return "Not fullfilled"; 
+	}
+
 }
